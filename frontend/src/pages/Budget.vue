@@ -1,5 +1,5 @@
 <template>
     <div class="budget">
-        <h1>Budhet</h1>
+        <h1>Budget</h1>
     </div>
 </template>
