@@ -14,7 +14,7 @@ To install the application, follow these steps:
 1. Clone the repository to your local machine:
 
 ```bash
-git clone <URL_OF_GIT_REPO>
+git clone https://github.com/iboizard/ProjetWeb.git
 ```
 
 2. Install the dependencies:
