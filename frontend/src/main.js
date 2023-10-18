@@ -5,5 +5,6 @@ import App from './App.vue'
 
 const app = createApp(App);
 
+document.title = "CRM" ;
 app.use(router);
 app.mount('#app');
