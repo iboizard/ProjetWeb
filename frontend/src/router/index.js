@@ -5,6 +5,8 @@ import Login from '../pages/Login.vue';
 import Teams from '../pages/Teams.vue';
 import Projects from '../pages/Projects.vue';
 import Budget from '../pages/Budget.vue';
+import SignUp from '../pages/SignUp.vue';
+import Profil from '../pages/Profil.vue';
 
 export const router = createRouter({
     routes: [
@@ -13,6 +15,8 @@ export const router = createRouter({
         { path: '/teams', name: 'Teams', meta: { needLogged: true }, component: Teams },
         { path: '/projects', name: 'Projects', meta: { needLogged: true }, component: Projects },
         { path: '/budget', name: 'Budget', meta: { needLogged: true }, component: Budget },
+        { path: '/signUp', name: 'SignUp', meta: { needNotLogged: true }, component: SignUp },
+        { path: '/profil', name: 'Profil', meta: { needNotLogged: true }, component: Profil },
         // if path not found, redirect to Home
         { path: '/:pathMatch(.*)*', redirect: '/' }, // If path not found, redirect to Home
     ],
