@@ -7,6 +7,7 @@ import Projects from '../pages/Projects.vue';
 import Budget from '../pages/Budget.vue';
 import SignUp from '../pages/SignUp.vue';
 import Profil from '../pages/Profil.vue';
+import Disconnect from '../pages/Disconnect.vue'
 
 export const router = createRouter({
     routes: [
@@ -17,6 +18,7 @@ export const router = createRouter({
         { path: '/budget', name: 'Budget', meta: { needLogged: true }, component: Budget },
         { path: '/signUp', name: 'SignUp', meta: { needNotLogged: true }, component: SignUp },
         { path: '/profil', name: 'Profil', meta: { needNotLogged: true }, component: Profil },
+        { path: '/disconnect', name: 'Disconnect', meta: { needNotLogged: true }, component: Disconnect },
         // if path not found, redirect to Home
         { path: '/:pathMatch(.*)*', redirect: '/' }, // If path not found, redirect to Home
     ],
