@@ -54,7 +54,6 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Raleway, sans-serif;
 }
 
 .container {
@@ -195,24 +194,22 @@ export default {
   margin-left: auto;
   color: #2b20f2;
 }
-.social-signup-div {	
-	position: absolute;
-	height: 140px;
-	width: 160px;
-	text-align: center;
-	bottom: 0px;
-	right: 0px;
-	color: #fff;
+
+.social-signup-div {
+  position: absolute;
+  height: 140px;
+  width: 160px;
+  text-align: center;
+  bottom: 0px;
+  right: 0px;
+  color: #fff;
 }
 
 .social-signup-href {
-	padding: 20px 10px;
-	color: #fff;
-	text-decoration: none;	
-	text-shadow: 0px 0px 8px #7875B5;
+  padding: 20px 10px;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0px 0px 8px #7875B5;
 }
 </style>
-    
-    
-    
     

@@ -91,7 +91,7 @@
   
   button {
     padding: 10px;
-    background-color: #3498db;
+    background-color: #1509f2;
     color: white;
     border: none;
     border-radius: 5px;
@@ -101,6 +101,17 @@
   button:hover {
     background-color: #2980b9;
   }
+
+  .screen__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  -webkit-clip-path: inset(0 0 0 0);
+  clip-path: inset(0 0 0 0);
+}
 
   </style>
   
