@@ -16,34 +16,38 @@
   </section>
 
   <div class="team-page">
-    <h2>Équipe</h2>
+    <h2>Équipes</h2>
 
-    <div v-if="team.members.length > 0">
-      <h3>Membres de l'Équipe</h3>
-      <ul>
-        <li v-for="member in team.members" :key="member.id">
-          {{ member.name }} - {{ member.skills.join(', ') }}
-          <button class="delete-button" @click="deleteMember(member.id)">Supprimer</button>
-        </li>
-      </ul>
-    </div>
-    <div v-else>
-      <p>Aucun membre dans l'équipe pour le moment.</p>
-    </div>
+    <div v-for="team in teams" :key="team.id">
+      <h3>{{ team.name }}</h3>
 
-    <div v-if="team.skills.length > 0">
-      <h3>Compétences de l'Équipe</h3>
-      <ul>
-        <li v-for="skill in team.skills" :key="skill">{{ skill }}</li>
-      </ul>
-    </div>
-    <div v-else>
-      <p>Aucune compétence spécifiée pour l'équipe.</p>
-    </div>
+      <div v-if="team.members.length > 0">
+        <h4>Membres de l'Équipe</h4>
+        <ul>
+          <li v-for="member in team.members" :key="member.id">
+            {{ member.name }} - {{ member.skills.join(', ') }}
+            <button class="delete-button" @click="deleteMember(team.id, member.id)">Supprimer</button>
+          </li>
+        </ul>
+      </div>
+      <div v-else>
+        <p>Aucun membre dans l'équipe pour le moment.</p>
+      </div>
 
-    <button @click="addMember" class="add-button">Ajouter un Membre</button>
+      <div v-if="team.skills.length > 0">
+        <h4>Compétences de l'Équipe</h4>
+        <ul>
+          <li v-for="skill in team.skills" :key="skill">{{ skill }}</li>
+        </ul>
+      </div>
+      <div v-else>
+        <p>Aucune compétence spécifiée pour l'équipe.</p>
+      </div>
 
-    <button @click="reportUnderstaffed" class="understaff-button">Signaler un Manque d'Effectif</button>
+      <button @click="addMember(team.id)" class="add-button">Ajouter un Membre</button>
+
+      <button @click="reportUnderstaffed(team.id)" class="understaff-button">Signaler un Manque d'Effectif</button>
+    </div>
   </div>
 </template>
   
@@ -52,27 +56,27 @@
 export default {
   data() {
     return {
-      team: {
-        members: [
-          { id: 1, name: 'John Doe', skills: ['JavaScript', 'HTML', 'CSS'] },
-          { id: 2, name: 'Alice Smith', skills: ['Python', 'Django', 'SQL'] },
-          { id: 3, name: 'Bob Johnson', skills: ['Java', 'Spring', 'Hibernate'] }
-        ],
-        skills: ['JavaScript', 'HTML', 'CSS', 'Python', 'Django', 'Java', 'Spring', 'Hibernate']
-      }
+      teams: [
+        {
+          id: 1,
+          name: 'Équipe A',
+          members: [
+            { id: 1, name: 'John Doe', skills: ['JavaScript', 'HTML', 'CSS'] },
+            { id: 2, name: 'Alice Smith', skills: ['Python', 'Django', 'SQL'] }
+          ],
+          skills: ['JavaScript', 'HTML', 'CSS', 'Python', 'Django']
+        },
+        {
+          id: 2,
+          name: 'Équipe B',
+          members: [
+            { id: 1, name: 'Bob Johnson', skills: ['Java', 'Spring', 'Hibernate'] }
+          ],
+          skills: ['Java', 'Spring', 'Hibernate']
+        }
+      ]
     };
   },
-  methods: {
-    addMember() {
-
-    },
-    deleteMember(memberId) {
-
-    },
-    reportUnderstaffed() {
-
-    }
-  }
 };
 </script>
   

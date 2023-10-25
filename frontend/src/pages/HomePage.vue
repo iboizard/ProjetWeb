@@ -17,7 +17,7 @@
 
   <div class="home">
     <div class="image">
-      <img src="../assets/HomePage.jpg" width="300" />
+      <img src="../assets/HomePage.jpg" width="500" />
     </div>
   </div>
 </template>
@@ -37,14 +37,6 @@ export default {
 .home {
   text-align: center;
   padding: 30px;
-}
-
-.banner {
-  background-color: #3498db;
-  color: white;
-  padding: 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
 }
 </style>
   

@@ -14,11 +14,61 @@
       <router-link to="/profil" class="nav-item">Profil</router-link>
     </ul>
   </section>
-    <div class="projects">
-        <h1>Projects</h1>
+  <div class="project-page">
+    <h2>Projets</h2>
+    <select v-model="selectedProjectId" @change="selectProject">
+      <option value="">Sélectionnez un projet</option>
+      <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.name }}</option>
+    </select>
+
+    <div v-if="selectedProject">
+      <h3>Description du Projet</h3>
+      <p>{{ selectedProject.description }}</p>
+
+      <h3>Date Limite</h3>
+      <p>{{ selectedProject.deadline }}</p>
+
+      <h3>Pulse-check</h3>
+      <p v-if="selectedProject.canCreatePulseCheck">Le manager peut créer un Pulse-check.</p>
+      <p v-else>Le manager ne peut pas créer de Pulse-check.</p>
+
+      <h3>Résultat de la Dernière Session</h3>
+      <p>{{ selectedProject.lastSessionResult }}</p>
     </div>
+  </div>
 </template>
 <script>
+export default {
+  data() {
+    return {
+      selectedProjectId: "",
+      projects: [
+        {
+          id: 1,
+          name: "Projet A",
+          description: "Description du Projet A",
+          deadline: "31-12-2023",
+          canCreatePulseCheck: true,
+          lastSessionResult: "Satisfaisant"
+        },
+        {
+          id: 2,
+          name: "Projet B",
+          description: "Description du Projet B",
+          deadline: "15-01-2024",
+          canCreatePulseCheck: false,
+          lastSessionResult: "À améliorer"
+        }
+      ],
+      selectedProject: null
+    };
+  },
+  methods: {
+    selectProject() {
+      this.selectedProject = this.projects.find(project => project.id === parseInt(this.selectedProjectId));
+    }
+  }
+};
 </script>
 <style>
 .navbar {
