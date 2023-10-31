@@ -132,19 +132,6 @@
     transition: .2s;
 }
 
-.login__submit:active,
-.login__submit:focus,
-.login__submit:hover {
-    border-color: #4138e9;
-    outline: none;
-}
-
-.button__icon {
-    font-size: 24px;
-    margin-left: auto;
-    color: #2b20f2;
-}
-
 .social-signup-div {
     position: absolute;
     height: 140px;
@@ -164,16 +151,9 @@
 
 /* NAVIGATION */
 
-
 h2 {
     vertical-align: center;
     text-align: center;
-}
-
-html,
-body {
-    margin: 0;
-    height: 100%;
 }
 
 * {
@@ -189,8 +169,8 @@ body {
     background-color: #00BAF0;
     background: linear-gradient(to left, #4577f4, #49d2ee);
     color: #FFF;
-    height: 50px;
-    padding: 1em;
+    height: 100px;
+    margin-bottom: 2%;
 }
 
 .menu {

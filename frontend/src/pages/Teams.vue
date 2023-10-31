@@ -15,10 +15,11 @@
     </ul>
   </section>
 
-  <div class="team-page">
-    <h2>Équipes</h2>
+  <h2>Équipes</h2>
 
-    <div v-for="team in teams" :key="team.id">
+  <div v-for="team in teams" :key="team.id">
+
+    <div class="team-page">
       <h3>{{ team.name }}</h3>
 
       <div v-if="team.members.length > 0">
@@ -81,12 +82,11 @@ export default {
 </script>
   
 <style scoped>
-
 .team-page {
-  max-width: 800px;
+  width: 500px;
   margin: 0 auto;
   padding: 30px;
-  background-color: #f9f9f9;
+  background-color: #e6f3f2;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }

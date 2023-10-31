@@ -17,7 +17,7 @@
 
   <div class="home">
     <div class="image">
-      <img src="../assets/HomePage.jpg" width="500" />
+      <img src="../assets/HomePage.jpg" width="1000" />
     </div>
   </div>
 </template>
@@ -36,7 +36,6 @@ export default {
 <style scoped>
 .home {
   text-align: center;
-  padding: 30px;
 }
 </style>
   

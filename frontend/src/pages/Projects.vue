@@ -1,5 +1,5 @@
-<template>    
-    <section class="top-nav">
+<template>
+  <section class="top-nav">
     <div>
       METTRE UN LOGO
     </div>
@@ -9,7 +9,7 @@
     </label>
     <ul class="menu">
       <router-link to="/" class="nav-item">Accueil</router-link>
-        <router-link to="/teams" class="nav-item">Equipes</router-link>
+      <router-link to="/teams" class="nav-item">Equipes</router-link>
       <router-link to="/disconnect" class="nav-item">Déconnexion</router-link>
       <router-link to="/profil" class="nav-item">Profil</router-link>
     </ul>
@@ -88,5 +88,44 @@ export default {
 
 .nav-item:hover {
   opacity: 0.8;
+}
+
+.project-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+h2,
+h3 {
+  color: #046b6b;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.menu-button-container {
+  display: none;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 </style>
