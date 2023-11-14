@@ -21,7 +21,7 @@
       <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.name }}</option>
     </select>
 
-    <div v-if="selectedProject">
+    <div class="project-page-selected" v-if="selectedProject">
       <h3>Description du Projet</h3>
       <p>{{ selectedProject.description }}</p>
 
@@ -35,6 +35,23 @@
       <h3>Résultat de la Dernière Session</h3>
       <p>{{ selectedProject.lastSessionResult }}</p>
     </div>
+  </div>
+
+  <div class="registration-form">
+    <div class="tabs">
+      <button @click="toggleFormVisibility">Inscription Projet</button>
+    </div>
+
+    <form v-if="isProject" @submit.prevent="submitProjectForm">
+      <input type="text" v-model="projectName" placeholder="Nom du Projet" required>
+      <textarea v-model="description" placeholder="Description du Projet" required></textarea>
+      <input type="text" v-model="objectives" placeholder="Objectifs du Projet" required>
+      <input type="date" v-model="deadline" required>
+      <input type="number" v-model="budget" placeholder="Budget du Projet" required>
+      <input type="text" v-model="members" placeholder="Membres du Projet (séparés par des virgules)" required>
+ 
+      <button type="submit">Inscription</button>
+    </form>
   </div>
 </template>
 <script>
@@ -60,12 +77,23 @@ export default {
           lastSessionResult: "À améliorer"
         }
       ],
-      selectedProject: null
+      selectedProject: null, 
+      isProject: false,
+      projectName: "",
+      description: "",
+      objectives: "",
+      deadline: "",
+      budget: "",
+      members: ""
     };
   },
   methods: {
     selectProject() {
       this.selectedProject = this.projects.find(project => project.id === parseInt(this.selectedProjectId));
+    }, submitProjectForm() {
+      console.log('Inscription Projet:', this.projectName, this.description, this.objectives, this.deadline, this.budget, this.members);
+    }, toggleFormVisibility() {
+      this.isProject = !this.isProject; 
     }
   }
 };
@@ -99,9 +127,17 @@ export default {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
+.project-page-selected {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
 h2,
 h3 {
-  color: #046b6b;
+  color: #1d94c3;
 }
 
 select {
@@ -128,4 +164,48 @@ p {
   display: flex;
   gap: 20px;
 }
+
+.registration-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 1%;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.activeTab {
+  font-weight: bold;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+textarea, 
+select {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: #1509f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
 </style>
