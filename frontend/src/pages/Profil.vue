@@ -1,7 +1,7 @@
 <template>
   <section class="top-nav">
-    <div>
-      Project Manager
+    <div class="nav-title">
+       Project Manager
     </div>
     <div class="profile-info">
       <div class="avatar"></div>
@@ -16,7 +16,7 @@
     
   <div class="profile-info">
     <h2>{{ userName }}</h2>
-    <p>Équipes gérées :</p>
+    <h3>Équipes gérées :</h3>
     <ul>
       <li v-for="team in managedTeams" :key="team.id">{{ team.name }}</li>
     </ul>

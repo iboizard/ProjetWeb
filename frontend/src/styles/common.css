@@ -161,6 +161,10 @@ h2 {
     box-sizing: border-box;
 }
 
+.nav-title{    
+    margin-left: 2%;
+}
+
 .top-nav {
     display: flex;
     flex-direction: row;

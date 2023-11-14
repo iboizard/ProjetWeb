@@ -1,7 +1,7 @@
 <template>
   <section class="top-nav">
-    <div>
-      Project Manager
+    <div class="nav-title">
+       Project Manager
     </div>
     <ul class="menu">
       <router-link to="/" class="nav-item">Accueil</router-link>
