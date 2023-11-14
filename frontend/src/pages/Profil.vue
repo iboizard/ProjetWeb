@@ -17,4 +17,6 @@
     <div class="profil">
         <h1>Profil</h1>
     </div>
+    <div> Image </div>
+    <div>Name </div>
 </template>
