@@ -29,6 +29,7 @@ Thumbs.db
 # Database
 *.sql
 *.sqlite
+*.db
 
 # Environment variables
 .env
