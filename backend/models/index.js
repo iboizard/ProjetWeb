@@ -23,6 +23,10 @@ Employee.belongsToMany(Project, { through: 'ProjectEmployees', foreignKey: 'empl
 Project.belongsToMany(User, { through: 'ProjectUsers', foreignKey: 'project_id' });
 User.belongsToMany(Project, { through: 'ProjectUsers', foreignKey: 'user_id' });
 
+feedDBwithSeedData = async () => {
+  require('../test_docs/seedData')(Project, Team, Purchase, Employee, Document, User);
+}
+
 module.exports = {
   sequelize,
   Project,
@@ -30,5 +34,6 @@ module.exports = {
   Employee,
   Team,
   Purchase,
-  Document
+  Document,
+  feedDBwithSeedData
 };

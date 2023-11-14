@@ -1,5 +1,5 @@
 const express = require('express');
-const { sequelize } = require('./models'); // Use CommonJS require
+const { sequelize, initDb } = require('./models'); // Use CommonJS require
 
 
 // Initialisation serveur
@@ -10,7 +10,11 @@ const port = 3000;
 // ----- IMPORTANT NOTE -----
 // Using { force: true } only if we want to drop and recreate tables
 // --------------------------
-sequelize.sync({ force: true }) 
+sequelize.sync({ force: true })
+  .then(() => {
+    console.log('Feeding the database with seed data...');
+    feedDBwithSeedData();
+  })
   .then(() => {
     app.listen(port, () => {
       console.log(`Server listening at http://localhost:${port}`);
