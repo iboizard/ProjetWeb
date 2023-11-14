@@ -17,7 +17,7 @@
 
   <div class="home">
     <div class="image">
-      <img src="../assets/HomePage.jpg" width="1000" />
+      <img src="../assets/HomePage.jpg" width="780" />
     </div>
   </div>
 </template>
