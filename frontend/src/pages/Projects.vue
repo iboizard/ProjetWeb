@@ -1,12 +1,8 @@
 <template>
   <section class="top-nav">
-    <div>
-      METTRE UN LOGO
+    <div> 
+      Project Manager
     </div>
-    <input id="menu-toggle" type="checkbox" />
-    <label class='menu-button-container' for="menu-toggle">
-      <div class='menu-button'></div>
-    </label>
     <ul class="menu">
       <router-link to="/" class="nav-item">Accueil</router-link>
       <router-link to="/teams" class="nav-item">Equipes</router-link>
@@ -135,7 +131,10 @@ export default {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-h2,
+h2{
+  color:  #ffc3a8;
+}
+
 h3 {
   color: #1d94c3;
 }
@@ -197,7 +196,7 @@ select {
 
 button {
   padding: 10px;
-  background-color: #1509f2;
+  background-color: #0d70a5;
   color: white;
   border: none;
   border-radius: 5px;

@@ -1,12 +1,8 @@
 <template>
   <section class="top-nav">
     <div>
-      METTRE UN LOGO
+      Project Manager
     </div>
-    <input id="menu-toggle" type="checkbox" />
-    <label class='menu-button-container' for="menu-toggle">
-      <div class='menu-button'></div>
-    </label>
     <ul class="menu">
       <router-link to="/" class="nav-item">Accueil</router-link>
       <router-link to="/projects" class="nav-item">Projets</router-link>
@@ -16,7 +12,6 @@
   </section>
 
   <h2>Équipes</h2>
-
   <div v-for="team in teams" :key="team.id">
 
     <div class="team-page">
@@ -86,16 +81,18 @@ export default {
   width: 500px;
   margin: 0 auto;
   padding: 30px;
-  background-color: #e6f3f2;
+  background-color: #effffe;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-h2,
-h3 {
-  color: #3498db;
+h2{
+  color: #febca3;
 }
 
+h3{
+  color: #63dcf1
+}
 ul {
   list-style: none;
   padding: 0;
@@ -115,20 +112,16 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #2980b9;
-}
-
 button.add-button {
-  background-color: #2ecc71;
+  background-color: #30afdb;
 }
 
 button.delete-button {
-  background-color: #e74c3c;
+  background-color: #ffc3a8;
 }
 
 button.understaffed-button {
-  background-color: #f39c12;
+  background-color: #ffeab4;
 }
 </style>
   
