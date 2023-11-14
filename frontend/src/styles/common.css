@@ -186,3 +186,24 @@ h2 {
     margin: 0 1rem;
     overflow: hidden; 
 }
+
+/* SCROLLBAR  */
+
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+    border-radius: 30px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #174e79; 
+    border-radius: 30px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #ffc3a8; 
+    border-radius: 10px;
+  }

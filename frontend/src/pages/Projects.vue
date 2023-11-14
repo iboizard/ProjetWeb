@@ -95,6 +95,7 @@ export default {
 };
 </script>
 <style>
+
 .navbar {
   background-color: #3498db;
   color: white;
