@@ -4,10 +4,57 @@ const user = require("../models/user");
 const { use } = require("../server");
 
 module.exports = async (Project, Team, Purchase, Employee, Document, User) => {
-    
+
+    // ----- VARIABLES -----
+    // user 1
+    let picture1 = '';
+    let email1 = '';
+    let phone1 = '';
+    // user 2
+    let picture2 = '';
+    let email2 = '';
+    let phone2 = '';
+    // user 3
+    let picture3 = '';
+    let email3 = '';
+    let phone3 = '';
+
+    await fetch('https://randomuser.me/api/')
+        .then(response => response.json())
+        .then(data => {
+            picture1 = data.results[0].picture.thumbnail;
+            email1 = data.results[0].email;
+            phone1 = data.results[0].phone;
+            
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    await fetch('https://randomuser.me/api/')
+        .then(response => response.json())
+        .then(data => {
+            picture2 = data.results[0].picture.thumbnail;
+            email2 = data.results[0].email;
+            phone2 = data.results[0].phone;
+            
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    await fetch('https://randomuser.me/api/')
+        .then(response => response.json())
+        .then(data => {
+            picture3 = data.results[0].picture.thumbnail;
+            email3 = data.results[0].email;
+            phone3 = data.results[0].phone;
+            
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
     // ----- USERS -----
     user1 = await User.create({
-        username: 'John Doe',
+        username: "Test1",
+        picture: picture1,
+        email: email1,
+        phone: phone1,
         // password: 'test'
         password: '$2b$10$tYBeE1wbOyC9DTS6NAb3mOuz9prf2Eq6zW4RqOWbtDtvxlkb2Jjhy'
 
@@ -15,15 +62,21 @@ module.exports = async (Project, Team, Purchase, Employee, Document, User) => {
     console.log('user1 created', user1.toJSON());
 
     user2 = await User.create({
-        username: 'Jane Doe',
+        username: "Test2",
+        picture: picture1,
+        email: email1,
+        phone: phone1,
         // password: 'test'
         password: '$2b$10$tYBeE1wbOyC9DTS6NAb3mOuz9prf2Eq6zW4RqOWbtDtvxlkb2Jjhy'
     });
     console.log('user2 created', user2.toJSON());
 
     user3 = await User.create({
-        username: 'John Smith',
-        password: 'password'
+        username: "Test3",
+        picture: picture1,
+        email: email1,
+        phone: phone1,
+        password: '$2b$10$tYBeE1wbOyC9DTS6NAb3mOuz9prf2Eq6zW4RqOWbtDtvxlkb2Jjhy'
     });
     console.log('user3 created', user3.toJSON());
 
@@ -176,7 +229,7 @@ module.exports = async (Project, Team, Purchase, Employee, Document, User) => {
     // await project2.addTeam(team1);
     // await project2.addTeam(team2);
     // await project3.addTeam(team2);
-    
+
 
 
     console.log('seed data added to database');

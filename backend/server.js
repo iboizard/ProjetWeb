@@ -3,6 +3,7 @@ const { sequelize, Project, User, Employee, Team, Purchase, Document } = require
 const bodyparser = require('body-parser');
 const cors = require('cors');
 
+
 // JWT
 const jwt = require('jsonwebtoken');
 // get the env file variables
@@ -15,8 +16,9 @@ const port = 3000;
 app.use(bodyparser.json());
 app.use(cors());
 
-// unprotect routes are /register /signin (and / for testing purposes)
-
+// ----------------------
+// ----- API ROUTES -----
+// ----------------------
 
 // Synchronize the database and start the server
 // ----- IMPORTANT NOTE -----
@@ -28,8 +30,27 @@ sequelize.sync({ force: true })
     feedDBwithSeedData();
   })
   .then(() => {
-    app.listen(port, () => {
+    const serveur = app.listen(port, () => {
       console.log(`Server listening at http://localhost:${port}`);
+    });
+
+    // ---------------------
+    // ----- SOCKET.IO -----
+    // ---------------------
+
+    const { Server } = require("socket.io");
+    const io = new Server(serveur, { cors: { origin: ['http://localhost:8080', 'http://127.0.0.1:8080'] } });
+
+    io.on('connection', (socket) => {
+      console.log('a user connected');
+      socket.on('disconnect', () => {
+          console.log('user disconnected');
+      });
+    
+      // Handle chat message
+      socket.on('chat message', (msg) => {
+          io.emit('chat message', msg); // Broadcasts to all clients
+      });
     });
   })
   .catch(err => {
