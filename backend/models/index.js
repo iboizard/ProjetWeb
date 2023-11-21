@@ -23,6 +23,9 @@ Employee.belongsToMany(Project, { through: 'ProjectEmployees', foreignKey: 'empl
 Project.belongsToMany(User, { through: 'ProjectUsers', foreignKey: 'project_id' });
 User.belongsToMany(Project, { through: 'ProjectUsers', foreignKey: 'user_id' });
 
+Project.belongsToMany(Team, { through: 'ProjectTeams', foreignKey: 'project_id' });
+Team.belongsToMany(Project, { through: 'ProjectTeams', foreignKey: 'team_id' });
+
 feedDBwithSeedData = async () => {
   require('../test_docs/seedData')(Project, Team, Purchase, Employee, Document, User);
 }

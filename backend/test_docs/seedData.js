@@ -1,4 +1,5 @@
 const project = require("../models/project");
+const team = require("../models/team");
 const user = require("../models/user");
 const { use } = require("../server");
 
@@ -163,6 +164,18 @@ module.exports = async (Project, Team, Purchase, Employee, Document, User) => {
     await team1.addEmployee(employee1);
     await team1.addEmployee(employee2);
     await team2.addEmployee(employee3);
+
+    // add projects to teams
+    await team1.addProject(project1);
+    await team1.addProject(project2);
+    await team2.addProject(project2);
+    await team2.addProject(project3);
+    await project1.addTeam(team1);
+    // await project2.addTeam(team1);
+    // await project2.addTeam(team2);
+    // await project3.addTeam(team2);
+    
+
 
     console.log('seed data added to database');
 };
