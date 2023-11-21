@@ -8,14 +8,16 @@ module.exports = async (Project, Team, Purchase, Employee, Document, User) => {
     // ----- USERS -----
     user1 = await User.create({
         username: 'John Doe',
-        password: 'password'
+        // password: 'test'
+        password: '$2b$10$tYBeE1wbOyC9DTS6NAb3mOuz9prf2Eq6zW4RqOWbtDtvxlkb2Jjhy'
 
     });
     console.log('user1 created', user1.toJSON());
 
     user2 = await User.create({
         username: 'Jane Doe',
-        password: 'password'
+        // password: 'test'
+        password: '$2b$10$tYBeE1wbOyC9DTS6NAb3mOuz9prf2Eq6zW4RqOWbtDtvxlkb2Jjhy'
     });
     console.log('user2 created', user2.toJSON());
 
