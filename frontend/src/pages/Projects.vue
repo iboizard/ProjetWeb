@@ -35,7 +35,8 @@
 
   <div class="registration-form">
     <div class="tabs">
-      <button @click="toggleFormVisibility">Inscription Projet</button>
+      <button class="navButton" @click="toggleFormVisibility">Inscription Projet</button>
+      <button class="navButton" @click="showAvailableProjects">Rattachement au Projet Existant</button>
     </div>
 
     <form v-if="isProject" @submit.prevent="submitProjectForm">
@@ -48,6 +49,16 @@
  
       <button type="submit">Inscription</button>
     </form>
+
+    <div v-if="showProjects">
+      <h3>Projets Disponibles</h3>
+      <select v-model="selectedExistingProject">
+        <option value="">Sélectionnez un projet</option>
+        <option v-for="project in availableProjects" :key="project.project_id" :value="project.project_id">{{ project.name }}</option>
+      </select>
+
+      <button @click="attachToExistingProject">Rattacher au Projet</button>
+    </div>
   </div>
 </template>
 <script>
@@ -75,6 +86,9 @@ export default {
       ],
       selectedProject: null, 
       isProject: false,
+      showProjects: false,
+      availableProjects: [],
+      selectedExistingProject: "",
       projectName: "",
       description: "",
       objectives: "",
@@ -90,7 +104,26 @@ export default {
       console.log('Inscription Projet:', this.projectName, this.description, this.objectives, this.deadline, this.budget, this.members);
     }, toggleFormVisibility() {
       this.isProject = !this.isProject; 
-    }
+    },showAvailableProjects() {
+      // Simuler un appel API pour récupérer les projets disponibles (mock)
+      this.availableProjects = this.mockAvailableProjects();
+      this.showProjects = true;
+    },
+    attachToExistingProject() {
+      // Simuler l'opération de rattachement à un projet existant (mock)
+      console.log("Utilisateur rattaché au projet :", this.selectedExistingProject);
+      // Réinitialisez les valeurs si nécessaire.
+      this.showProjects = false;
+      this.selectedExistingProject = "";
+    },
+    mockAvailableProjects() {
+      // Simuler la liste des projets disponibles
+      return [
+        { project_id: 1, name: "Projet A" },
+        { project_id: 2, name: "Projet B" },
+        { project_id: 3, name: "Projet C" },
+      ];
+    },
   }
 };
 </script>
@@ -203,6 +236,11 @@ button {
   border-radius: 5px;
   cursor: pointer;
 }
+
+.navButton{
+  width: 40%;
+}
+
 
 button:hover {
   background-color: #2980b9;
