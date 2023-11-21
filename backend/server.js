@@ -2,10 +2,19 @@ const express = require('express');
 const { sequelize, Project, User, Employee, Team, Purchase, Document } = require('./models'); // Use CommonJS require
 const bodyparser = require('body-parser');
 
+// JWT
+const jwt = require('jsonwebtoken');
+// get the env file variables
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET;
+
 // Initialisation serveur
 const app = express();
 const port = 3000;
 app.use(bodyparser.json());
+
+// unprotect routes are /register /signin (and / for testing purposes)
+
 
 // Synchronize the database and start the server
 // ----- IMPORTANT NOTE -----
@@ -25,12 +34,36 @@ sequelize.sync({ force: true })
     console.error('Unable to sync database:', err);
   });
 
+// ----- JWT -----
+const authenticateToken = (req, res, next) => {
+  // Get the token from the headers
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+
+  if (token == null) {
+    return res.sendStatus(401); // If no token, return unauthorized
+  }
+
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) {
+      return res.sendStatus(403); // If token is not valid, return forbidden
+    }
+
+    req.user = user;
+    next(); // Token is valid, continue to the next middleware or the route handler
+  });
+};
+
+// define protected routes
+app.use('/employees', authenticateToken);
+app.use('/teams', authenticateToken);
+app.use('/projects', authenticateToken);
+app.use('/users', authenticateToken);
 
 // Define your routes and middleware below this
 app.get('/', (req, res) => {
   res.status(418).send('I\'m a teapot');
 });
-
 
 // ------ TEAMS ------
 
@@ -232,10 +265,69 @@ app.post('/projects/:projectId/documents', async (req, res) => {
   }
 });
 
-// --- sécu ---
-// S'inscrire
-// Se connecter
-// Se déconnecter
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
+// POST /register - Register a new user
+app.post('/register', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).send('Username and password are required');
+    }
+
+    // Check if user already exists
+    const userExists = await User.findOne({ where: { username } });
+    if (userExists) {
+      return res.status(409).send('Username is already taken');
+    }
+
+    // Hash password and create user
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const newUser = await User.create({ username, password: hashedPassword });
+
+    res.status(201).json({
+      id: newUser.id,
+      username: newUser.username,
+      // DONT SEND BACK THE PASSWORD YOU DUMMY
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+
+// POST /signin - Authenticate a user
+app.post('/signin', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).send('Username and password are required');
+    }
+
+    // Find user by username
+    const user = await User.findOne({ where: { username } });
+    if (!user) {
+      return res.status(401).send('Invalid username or password');
+    }
+
+    // Compare submitted password with hashed password in database
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).send('Invalid username or password');
+    }
+
+    const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1h' });
+
+    res.json({
+      message: 'User signed in successfully',
+      token
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 
 
 module.exports = app;
