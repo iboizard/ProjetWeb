@@ -1,6 +1,7 @@
 const express = require('express');
 const { sequelize, Project, User, Employee, Team, Purchase, Document } = require('./models'); // Use CommonJS require
 const bodyparser = require('body-parser');
+const cors = require('cors');
 
 // JWT
 const jwt = require('jsonwebtoken');
@@ -12,6 +13,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const app = express();
 const port = 3000;
 app.use(bodyparser.json());
+app.use(cors());
 
 // unprotect routes are /register /signin (and / for testing purposes)
 
