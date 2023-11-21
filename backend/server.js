@@ -1,9 +1,11 @@
 const express = require('express');
 const { sequelize, Project, User, Employee, Team, Purchase, Document } = require('./models'); // Use CommonJS require
+const bodyparser = require('body-parser');
 
 // Initialisation serveur
 const app = express();
 const port = 3000;
+app.use(bodyparser.json());
 
 // Synchronize the database and start the server
 // ----- IMPORTANT NOTE -----
@@ -147,7 +149,7 @@ app.get('/projects/:id', async (req, res) => {
 
 //TESTED la team d'un projet
 app.get('/projects/:id/teams', async (req, res) => {
-  try{
+  try {
     const teams = await Team.findAll({
       include: [{
         model: Project,
@@ -188,21 +190,35 @@ app.get('/projects/:projectId/documents', async (req, res) => {
   }
 });
 
-// ajouter une purchase à un projet
+//TESTED ajouter une purchase à un projet
+/* SAMPLE
+{"title": "Test from api",
+    "description": "HelloThere",
+    "price": 23094032,
+    "invoice_number": "GeneralKenobi?"}
+*/
 app.post('/projects/:projectId/purchases', async (req, res) => {
   try {
+
     const project = await Project.findByPk(req.params.projectId);
     if (!project) {
       return res.status(404).send('Project not found');
     }
-    const purchase = await project.createPurchase(req.body);
-    res.status(201).json(purchase);
+    // create purchase
+    const newPurchase = await project.createPurchase(req.body);
+
+    res.status(201).json(newPurchase);
   } catch (error) {
     res.status(500).send(error.message);
   }
 });
 
-// ajouter un document à un projet
+//TESTED ajouter un document à un projet
+/*SAMPLE
+{"title": "Document test",
+    "description": "Description test",
+    "link": "https://google.com"}
+*/
 app.post('/projects/:projectId/documents', async (req, res) => {
   try {
     const project = await Project.findByPk(req.params.projectId);
@@ -215,9 +231,6 @@ app.post('/projects/:projectId/documents', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-
-
 
 // --- sécu ---
 // S'inscrire
