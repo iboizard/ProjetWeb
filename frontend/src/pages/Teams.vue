@@ -96,7 +96,6 @@ export default {
         console.log(`Ajouter un membre à l'équipe avec l'ID ${teamId}, Employé avec l'ID ${this.selectedEmployeeId}`);
         this.showAddMemberModal = false;
 
-        // Mettre à jour la liste des membres de l'équipe de manière réactive
         const updatedTeam = this.teams.find(t => t.team_id === teamId);
         if (updatedTeam) {
           const employeesResponse = await fetch(`http://localhost:3000/teams/${teamId}/employees`, {
@@ -109,7 +108,6 @@ export default {
           const employeesData = await employeesResponse.json();
           updatedTeam.employees = employeesData;
 
-          // Vous pouvez également réaffecter l'objet teams pour forcer la réactivité
           this.$set(this.teams, this.teams.indexOf(updatedTeam), Object.assign({}, updatedTeam));
         }
       } catch (error) {

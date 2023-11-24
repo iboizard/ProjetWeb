@@ -3,23 +3,24 @@
     <h2>Projets</h2>
     <select v-model="selectedProjectId" @change="selectProject">
       <option value="">Sélectionnez un projet</option>
-      <option v-for="project in availableProjects" :key="project.project_id" :value="project.project_id">{{ project.name }}</option>
+      <option v-for="project in availableProjects" :key="project.project_id" :value="project.project_id">{{ project.name
+      }}</option>
     </select>
 
     <div class="project-page-selected" v-if="selectedProjectId && selectedProject">
-    <h3>Description du Projet</h3>
-    <p>{{ selectedProject.description }}</p>
+      <h3>Description du Projet</h3>
+      <p>{{ selectedProject.description }}</p>
 
-    <h3>Date Limite</h3>
-    <p>{{ selectedProject.deadline }}</p>
+      <h3>Date Limite</h3>
+      <p>{{ selectedProject.deadline }}</p>
 
-    <h3>Pulse-check</h3>
-    <p v-if="selectedProject.canCreatePulseCheck">Le manager peut créer un Pulse-check.</p>
-    <p v-else>Le manager ne peut pas créer de Pulse-check.</p>
+      <h3>Pulse-check</h3>
+      <p v-if="selectedProject.canCreatePulseCheck">Le manager peut créer un Pulse-check.</p>
+      <p v-else>Le manager ne peut pas créer de Pulse-check.</p>
 
-    <h3>Résultat de la Dernière Session</h3>
-    <p>{{ selectedProject.lastSessionResult }}</p>
-  </div>
+      <h3>Résultat de la Dernière Session</h3>
+      <p>{{ selectedProject.lastSessionResult }}</p>
+    </div>
 
     <div class="registration-form">
       <div class="tabs">
@@ -61,23 +62,40 @@ export default {
     selectProject() {
       this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
     },
-    submitProjectForm() {
-      console.log(
-        'Inscription Projet:',
-        this.projectName,
-        this.description,
-        this.objectives,
-        this.deadline,
-        this.budget,
-        this.members
-      );
-    },
+    async submitProjectForm() {
+      try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MjA5MzMsImV4cCI6MTcwMDgyNDUzM30.Ntj4OiQxyEAhnRIPnvYfZxDKOG9E44XXhPuDHi7Q79E';
+        const response = await fetch('http://localhost:3000/projects', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.projectName,
+            description: this.description,
+            objectives: this.objectives,
+            deadline: this.deadline,
+            budget: this.budget,
+          }),
+        });
+
+        if (response.ok) {
+          console.log('Projet inscrit avec succès');
+        } else {
+          console.error('Échec de l\'inscription du projet :', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête POST pour l\'inscription du projet :', error.message);
+      }
+    }
+    ,
     toggleFormVisibility() {
       this.isProject = !this.isProject;
     },
     async getProjects() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MTY0MTcsImV4cCI6MTcwMDgyMDAxN30.jAgakywx_msyy5Qmi6OaVZUcUxrkMJ-PWV_lyC1fLuI';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MjA5MzMsImV4cCI6MTcwMDgyNDUzM30.Ntj4OiQxyEAhnRIPnvYfZxDKOG9E44XXhPuDHi7Q79E';
         const response = await fetch('http://localhost:3000/projects', {
           method: 'GET',
           headers: {
