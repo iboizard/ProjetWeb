@@ -1,9 +1,18 @@
 <template>
   <router-view></router-view>
-  <ChatComponent id="chat-component"/>  <!-- Chat component will be displayed on every page -->
+  <ChatComponent v-if="isUserAuthenticated" id="chat-component"/>  <!-- Chat component will be displayed on every page -->
 </template>
 
 <script setup>
+
+import ChatComponent from './components/Chat.vue';
+// import inject
+
+import { inject, computed } from 'vue';
+
+const userState = inject('userState');
+const isUserAuthenticated = computed(() => userState.isAuthenticated);
+
 </script>
 
 <style>
@@ -31,16 +40,3 @@
 </style>
 
 
-
-
-<script>
-
-import ChatComponent from './components/Chat.vue';
-
-export default {
-  components: {
-    ChatComponent
-  }
-};
-
-</script>

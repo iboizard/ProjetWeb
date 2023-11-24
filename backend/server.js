@@ -315,6 +315,7 @@ app.post('/register', async (req, res) => {
       // DONT SEND BACK THE PASSWORD YOU DUMMY
     });
   } catch (error) {
+    console.error(error);
     res.status(500).send(error.message);
   }
 });
