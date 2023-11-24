@@ -1,18 +1,4 @@
 <template>
-  <section class="top-nav">
-    <div class="nav-title">
-       Project Manager
-    </div>
-    <div class="profile-info">
-      <div class="avatar"></div>
-    </div>
-    <ul class="menu">
-      <router-link to="/" class="nav-item">Accueil</router-link>
-      <router-link to="/projects" class="nav-item">Projets</router-link>
-      <router-link to="/teams" class="nav-item">Equipes</router-link>
-      <router-link to="/disconnect" class="nav-item">Déconnexion</router-link>
-    </ul>
-  </section>
     
   <div class="profile-info">
     <h2>{{ userName }}</h2>

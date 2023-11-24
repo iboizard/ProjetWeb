@@ -1,21 +1,25 @@
 <template>
   <router-view></router-view>
+  <MenuBarComponent/>
   <ChatComponent v-if="isUserAuthenticated" id="chat-component"/>  <!-- Chat component will be displayed on every page -->
 </template>
 
 <script setup>
 
 import ChatComponent from './components/Chat.vue';
-// import inject
+import MenuBarComponent from './components/MenuBar.vue';
+import commonCSS from './styles/common.css';
 
 import { inject, computed } from 'vue';
 
 const userState = inject('userState');
 const isUserAuthenticated = computed(() => userState.isAuthenticated);
 
+
 </script>
 
 <style>
+
 #chat-component {
   position: fixed;
   bottom: 20px;
