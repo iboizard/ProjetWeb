@@ -1,21 +1,25 @@
 <template>
-  <router-view></router-view>
-  <MenuBarComponent/>
-  <ChatComponent v-if="isUserAuthenticated" id="chat-component"/>  <!-- Chat component will be displayed on every page -->
+  <div>
+    <MenuBarComponent v-if="shouldShowNavBar" />
+    <router-view></router-view>
+    <ChatComponent v-if="isUserAuthenticated" id="chat-component"/>
+  </div>
 </template>
 
 <script setup>
+  import ChatComponent from './components/Chat.vue';
+  import MenuBarComponent from './components/MenuBar.vue';
+  import { inject, computed } from 'vue';
+  import { useRoute } from 'vue-router';
 
-import ChatComponent from './components/Chat.vue';
-import MenuBarComponent from './components/MenuBar.vue';
-import commonCSS from './styles/common.css';
+  const userState = inject('userState');
+  const isUserAuthenticated = computed(() => userState.isAuthenticated);
+  const currentRoute = useRoute();
 
-import { inject, computed } from 'vue';
-
-const userState = inject('userState');
-const isUserAuthenticated = computed(() => userState.isAuthenticated);
-
-
+  const shouldShowNavBar = computed(() => {
+  const excludedRoutes = ['/disconnect', '/login', '/signup'];
+  return !excludedRoutes.includes(currentRoute.path);
+});
 </script>
 
 <style>
