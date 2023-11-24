@@ -10,7 +10,7 @@
       <router-link to="/profil" class="nav-item">Profil</router-link>
     </ul>
   </section>
-  <div class="project-page">
+  <div class="teams-page">
     <h2>Équipes</h2>
     <select v-model="selectedTeamId" @change="loadTeam">
       <option value="">Sélectionnez une équipe</option>
@@ -158,7 +158,7 @@ export default {
 </script>
   
 <style scoped>
-.project-page {
+.teams-page {
   max-width: 600px;
   margin: 0 auto;
   padding: 30px;
