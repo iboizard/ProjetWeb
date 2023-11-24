@@ -1,6 +1,6 @@
 <template>
   <router-view></router-view>
-  <ChatComponent id="chat-component"/> <!-- Chat component will be displayed on every page -->
+  <ChatComponent id="chat-component"/>  <!-- Chat component will be displayed on every page -->
 </template>
 
 <script setup>
@@ -19,12 +19,22 @@
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
 }
 
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
 </style>
 
 
 
 
 <script>
+
 import ChatComponent from './components/Chat.vue';
 
 export default {
@@ -32,4 +42,5 @@ export default {
     ChatComponent
   }
 };
+
 </script>
