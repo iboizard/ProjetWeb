@@ -8,26 +8,29 @@
   </div>
 </template>
   
-<script>
-export default {
-  data() {
-    return {
-      message: '',
-      messages: []
-    };
-  },
-  mounted() {
-    this.$socket.on('chat message', (msg) => {
-      this.messages.push(msg);
-    });
-  },
-  methods: {
-    sendMessage() {
-      this.$socket.emit('chat message', this.message);
-      this.message = '';
-    }
-  }
+<script setup>
+
+
+import { ref, inject } from 'vue';
+import { socket, connect } from '../socket';  
+const message = ref('');
+const messages = ref([]);
+
+const token = localStorage.getItem('jwt_token');
+const userState = inject('userState');
+
+if(!socket) {
+  connect(token);
+}
+
+socket.on('chat message', (msg) => {
+  messages.value.push(msg);
+});
+const sendMessage = () => {
+  socket.emit('chat message', userState.username + ' : ' + message.value);
+  message.value = '';
 };
+
 </script>
   
 <style>
@@ -36,6 +39,13 @@ export default {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+/* allign the text to the left */
+#messages li {
+  padding-left: 4%;
+  padding-top: 2%;
+  text-align: left;
 }
 
 </style>

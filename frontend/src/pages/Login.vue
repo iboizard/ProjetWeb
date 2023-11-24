@@ -38,6 +38,7 @@ import axios from 'axios'; // Make sure to install axios if not already installe
 import '../styles/common.css';
 import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
+import { connect } from '../socket';
 
 const router = useRouter();
 
@@ -59,7 +60,9 @@ const handleLogin = async () => {
       // store the token into localStorage
       localStorage.setItem('jwt_token', response.data.token);
       // update the userState
+      connect(response.data.token);
       userState.isAuthenticated = true;
+      userState.username = username.value;
       // Redirect to home after login
       router.push('/');
     } else {

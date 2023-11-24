@@ -352,7 +352,7 @@ app.post('/signin', async (req, res) => {
       return res.status(401).send('Invalid username or password');
     }
 
-    const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, username: username }, jwtSecret, { expiresIn: '1h' });
 
     res.json({
       message: 'User signed in successfully',
