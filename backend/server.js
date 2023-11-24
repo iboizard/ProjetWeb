@@ -44,12 +44,12 @@ sequelize.sync({ force: true })
     io.on('connection', (socket) => {
       console.log('a user connected');
       socket.on('disconnect', () => {
-          console.log('user disconnected');
+        console.log('user disconnected');
       });
-    
+
       // Handle chat message
       socket.on('chat message', (msg) => {
-          io.emit('chat message', msg); // Broadcasts to all clients
+        io.emit('chat message', msg); // Broadcasts to all clients
       });
     });
   })
@@ -242,6 +242,17 @@ app.get('/projects/:projectId/documents', async (req, res) => {
 
     res.json(documents);
   } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+// ajouter un projet
+app.post('/projects', async (req, res) => {
+  try {
+    const newProject = await Project.create(req.body);
+    res.status(201).json(newProject);
+  } catch (error) {
+    console.error(error);
     res.status(500).send(error.message);
   }
 });
