@@ -8,6 +8,7 @@ import Budget from '../pages/Budget.vue';
 import SignUp from '../pages/SignUp.vue';
 import Profil from '../pages/Profil.vue';
 import Disconnect from '../pages/Disconnect.vue'
+import { isTokenExpired } from './tokenUtils';
 
 const router = createRouter({
     routes: [
@@ -17,8 +18,8 @@ const router = createRouter({
         { path: '/projects', name: 'Projects', meta: { needLogged: true }, component: Projects },
         { path: '/budget', name: 'Budget', meta: { needLogged: true }, component: Budget },
         { path: '/signUp', name: 'SignUp', meta: { needNotLogged: true }, component: SignUp },
-        { path: '/profil', name: 'Profil', meta: { needNotLogged: true }, component: Profil },
-        { path: '/disconnect', name: 'Disconnect', meta: { needNotLogged: true }, component: Disconnect },
+        { path: '/profil', name: 'Profil', meta: { needLogged: true }, component: Profil },
+        { path: '/disconnect', name: 'Disconnect', meta: { needLogged: true }, component: Disconnect },
         // if path not found, redirect to Home
         { path: '/:pathMatch(.*)*', redirect: '/' }, // If path not found, redirect to Home
     ],
@@ -31,6 +32,9 @@ router.beforeEach((to, from, next) => {
     if (to.meta.needNotLogged && token) {
         next('/'); // Redirect to Home
     }
+    if(to.meta.needLogged && !token) {
+        next('/login'); // Redirect to login page
+    }
     if (token && isTokenExpired(token)) {
         localStorage.removeItem('jwt_token');
         alert('Your session has expired. Please log in again.');
@@ -39,21 +43,5 @@ router.beforeEach((to, from, next) => {
         next(); // Proceed as normal
     }
 });
-
-// check if token is expired
-function isTokenExpired(token) {
-    const payloadBase64 = token.split('.')[1];
-    const decodedJson = atob(payloadBase64);
-    const decoded = JSON.parse(decodedJson);
-    const exp = decoded.exp;
-    const now = Date.now() / 1000;
-    return exp < now;
-}
-
-const token = localStorage.getItem('jwt_token');
-if (token && isTokenExpired(token)) {
-    userState.isAuthenticated = false;
-    localStorage.removeItem('jwt_token');
-}
 
 export default router;
