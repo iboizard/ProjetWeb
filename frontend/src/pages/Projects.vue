@@ -14,12 +14,6 @@
       <h3>Date Limite</h3>
       <p>{{ selectedProject.deadline }}</p>
 
-      <h3>Pulse-check</h3>
-      <p v-if="selectedProject.canCreatePulseCheck">Le manager peut créer un Pulse-check.</p>
-      <p v-else>Le manager ne peut pas créer de Pulse-check.</p>
-
-      <h3>Résultat de la Dernière Session</h3>
-      <p>{{ selectedProject.lastSessionResult }}</p>
     </div>
 
     <div class="registration-form">
