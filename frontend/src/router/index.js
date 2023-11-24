@@ -28,6 +28,9 @@ const router = createRouter({
 // protect routes by checking token validity
 router.beforeEach((to, from, next) => {
     const token = localStorage.getItem('jwt_token');
+    if (to.meta.needNotLogged && token) {
+        next('/'); // Redirect to Home
+    }
     if (token && isTokenExpired(token)) {
         localStorage.removeItem('jwt_token');
         alert('Your session has expired. Please log in again.');
@@ -36,7 +39,6 @@ router.beforeEach((to, from, next) => {
         next(); // Proceed as normal
     }
 });
-
 
 // check if token is expired
 function isTokenExpired(token) {
