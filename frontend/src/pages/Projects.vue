@@ -1,8 +1,6 @@
 <template>
   <section class="top-nav">
-    <div class="nav-title">
-       Project Manager
-    </div>
+    <div class="nav-title">Project Manager</div>
     <ul class="menu">
       <router-link to="/" class="nav-item">Accueil</router-link>
       <router-link to="/teams" class="nav-item">Equipes</router-link>
@@ -14,79 +12,50 @@
     <h2>Projets</h2>
     <select v-model="selectedProjectId" @change="selectProject">
       <option value="">Sélectionnez un projet</option>
-      <option v-for="project in projects" :key="project.id" :value="project.id">{{ project.name }}</option>
+      <option v-for="project in availableProjects" :key="project.project_id" :value="project.project_id">{{ project.name }}</option>
     </select>
 
-    <div class="project-page-selected" v-if="selectedProject">
-      <h3>Description du Projet</h3>
-      <p>{{ selectedProject.description }}</p>
+    <div class="project-page-selected" v-if="selectedProjectId && selectedProject">
+    <h3>Description du Projet</h3>
+    <p>{{ selectedProject.description }}</p>
 
-      <h3>Date Limite</h3>
-      <p>{{ selectedProject.deadline }}</p>
+    <h3>Date Limite</h3>
+    <p>{{ selectedProject.deadline }}</p>
 
-      <h3>Pulse-check</h3>
-      <p v-if="selectedProject.canCreatePulseCheck">Le manager peut créer un Pulse-check.</p>
-      <p v-else>Le manager ne peut pas créer de Pulse-check.</p>
+    <h3>Pulse-check</h3>
+    <p v-if="selectedProject.canCreatePulseCheck">Le manager peut créer un Pulse-check.</p>
+    <p v-else>Le manager ne peut pas créer de Pulse-check.</p>
 
-      <h3>Résultat de la Dernière Session</h3>
-      <p>{{ selectedProject.lastSessionResult }}</p>
-    </div>
+    <h3>Résultat de la Dernière Session</h3>
+    <p>{{ selectedProject.lastSessionResult }}</p>
   </div>
 
-  <div class="registration-form">
-    <div class="tabs">
-      <button class="navButton" @click="toggleFormVisibility">Inscription Projet</button>
-      <button class="navButton" @click="showAvailableProjects">Rattachement au Projet Existant</button>
-    </div>
+    <div class="registration-form">
+      <div class="tabs">
+        <button class="navButton" @click="toggleFormVisibility">Inscription Projet</button>
+      </div>
 
-    <form v-if="isProject" @submit.prevent="submitProjectForm">
-      <input type="text" v-model="projectName" placeholder="Nom du Projet" required>
-      <textarea v-model="description" placeholder="Description du Projet" required></textarea>
-      <input type="text" v-model="objectives" placeholder="Objectifs du Projet" required>
-      <input type="date" v-model="deadline" required>
-      <input type="number" v-model="budget" placeholder="Budget du Projet" required>
-      <input type="text" v-model="members" placeholder="Membres du Projet (séparés par des virgules)" required>
- 
-      <button type="submit">Inscription</button>
-    </form>
+      <form v-if="isProject" @submit.prevent="submitProjectForm">
+        <input type="text" v-model="projectName" placeholder="Nom du Projet" required>
+        <textarea v-model="description" placeholder="Description du Projet" required></textarea>
+        <input type="text" v-model="objectives" placeholder="Objectifs du Projet" required>
+        <input type="date" v-model="deadline" required>
+        <input type="number" v-model="budget" placeholder="Budget du Projet" required>
+        <input type="text" v-model="members" placeholder="Membres du Projet (séparés par des virgules)" required>
 
-    <div v-if="showProjects">
-      <h3>Projets Disponibles</h3>
-      <select v-model="selectedExistingProject">
-        <option value="">Sélectionnez un projet</option>
-        <option v-for="project in availableProjects" :key="project.project_id" :value="project.project_id">{{ project.name }}</option>
-      </select>
-
-      <button @click="attachToExistingProject">Rattacher au Projet</button>
+        <button type="submit">Inscription</button>
+      </form>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
       selectedProjectId: "",
-      projects: [
-        {
-          id: 1,
-          name: "Projet A",
-          description: "Description du Projet A",
-          deadline: "31-12-2023",
-          canCreatePulseCheck: true,
-          lastSessionResult: "Satisfaisant"
-        },
-        {
-          id: 2,
-          name: "Projet B",
-          description: "Description du Projet B",
-          deadline: "15-01-2024",
-          canCreatePulseCheck: false,
-          lastSessionResult: "À améliorer"
-        }
-      ],
-      selectedProject: null, 
+      selectedProject: null,
       isProject: false,
-      showProjects: false,
       availableProjects: [],
       selectedExistingProject: "",
       projectName: "",
@@ -94,41 +63,52 @@ export default {
       objectives: "",
       deadline: "",
       budget: "",
-      members: ""
+      members: "",
     };
   },
   methods: {
     selectProject() {
-      this.selectedProject = this.projects.find(project => project.id === parseInt(this.selectedProjectId));
-    }, submitProjectForm() {
-      console.log('Inscription Projet:', this.projectName, this.description, this.objectives, this.deadline, this.budget, this.members);
-    }, toggleFormVisibility() {
-      this.isProject = !this.isProject; 
-    },showAvailableProjects() {
-      // Simuler un appel API pour récupérer les projets disponibles (mock)
-      this.availableProjects = this.mockAvailableProjects();
-      this.showProjects = true;
+      this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
     },
-    attachToExistingProject() {
-      // Simuler l'opération de rattachement à un projet existant (mock)
-      console.log("Utilisateur rattaché au projet :", this.selectedExistingProject);
-      // Réinitialisez les valeurs si nécessaire.
-      this.showProjects = false;
-      this.selectedExistingProject = "";
+    submitProjectForm() {
+      console.log(
+        'Inscription Projet:',
+        this.projectName,
+        this.description,
+        this.objectives,
+        this.deadline,
+        this.budget,
+        this.members
+      );
     },
-    mockAvailableProjects() {
-      // Simuler la liste des projets disponibles
-      return [
-        { project_id: 1, name: "Projet A" },
-        { project_id: 2, name: "Projet B" },
-        { project_id: 3, name: "Projet C" },
-      ];
+    toggleFormVisibility() {
+      this.isProject = !this.isProject;
     },
-  }
+    async getProjects() {
+      try {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MTY0MTcsImV4cCI6MTcwMDgyMDAxN30.jAgakywx_msyy5Qmi6OaVZUcUxrkMJ-PWV_lyC1fLuI';
+        const response = await fetch('http://localhost:3000/projects', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        this.availableProjects = data;
+        console.log(this.availableProjects);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des projets :', error.message);
+      }
+    },
+  },
+  mounted() {
+    this.getProjects();
+  },
 };
 </script>
-<style>
 
+<style>
 .navbar {
   background-color: #3498db;
   color: white;
@@ -165,8 +145,8 @@ export default {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-h2{
-  color:  #ffc3a8;
+h2 {
+  color: #ffc3a8;
 }
 
 h3 {
@@ -220,7 +200,7 @@ form {
 }
 
 input,
-textarea, 
+textarea,
 select {
   margin-bottom: 10px;
   padding: 8px;
@@ -237,7 +217,7 @@ button {
   cursor: pointer;
 }
 
-.navButton{
+.navButton {
   width: 40%;
 }
 
@@ -245,5 +225,4 @@ button {
 button:hover {
   background-color: #2980b9;
 }
-
 </style>
