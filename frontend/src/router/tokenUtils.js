@@ -8,3 +8,4 @@ function isTokenExpired(token) {
     return exp < now;
 }
 
+export { isTokenExpired };
