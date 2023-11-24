@@ -77,7 +77,6 @@ export default {
           const employeesData = await employeesResponse.json();
           team.employees = employeesData;
         }
-        console.log(this.teams);
       } catch (error) {
         console.error('Erreur lors de la récupération des équipes :', error.message);
       }

@@ -105,7 +105,6 @@ export default {
         });
         const data = await response.json();
         this.availableProjects = data;
-        console.log(this.availableProjects);
       } catch (error) {
         console.error('Erreur lors de la récupération des projets :', error.message);
       }
