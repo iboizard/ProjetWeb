@@ -5,7 +5,7 @@
         <form class="login">
           <div class="login__field">
             <i class="login__icon fas fa-user"></i>
-            <input type="text" class="login__input" placeholder="Email">
+            <input type="text" class="login__input" placeholder="Username">
           </div>
           <div class="login__field">
             <i class="login__icon fas fa-lock"></i>
