@@ -136,6 +136,23 @@ app.post('/teams/:teamId/employees/:employeeId', async (req, res) => {
   }
 });
 
+// Supprimer un employé d'une équipe A REFAIRE ERREUR 
+app.delete('/teams/:teamId/employees/:employeeId', async (req, res) => {
+  try {
+    const team = await Team.findByPk(req.params.teamId);
+    if (!team) {
+      return res.status(404).send('Team not found');
+    }
+
+    const employee = await Employee.findByPk(req.params.employeeId);
+
+    await team.removeEmployee(employee);
+
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 //TESTED Employés d'une team
 app.get('/teams/:teamId/employees', async (req, res) => {
   try {

@@ -56,7 +56,7 @@ export default {
   methods: {
     async getTeams() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MTI1ODMsImV4cCI6MTcwMDgxNjE4M30.tZ1RQrMp1xePT4l7INM898RiYZgvClqKvvBldcd8fCs';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExNzc1MDUsImV4cCI6MTcwMTE4MTEwNX0.6spfw8shQLOLaEYXyg_sTjxTChQ4QewG8yvK3Fmzqgs';
         const response = await fetch('http://localhost:3000/teams', {
           method: 'GET',
           headers: {
@@ -83,7 +83,7 @@ export default {
     },
     async addMember(teamId) {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MTI1ODMsImV4cCI6MTcwMDgxNjE4M30.tZ1RQrMp1xePT4l7INM898RiYZgvClqKvvBldcd8fCs';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExNzc1MDUsImV4cCI6MTcwMTE4MTEwNX0.6spfw8shQLOLaEYXyg_sTjxTChQ4QewG8yvK3Fmzqgs';
         await fetch(`http://localhost:3000/teams/${teamId}/employees/${this.selectedEmployeeId}`, {
           method: 'POST',
           headers: {
@@ -116,7 +116,7 @@ export default {
 
     async getEmployees() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MTI1ODMsImV4cCI6MTcwMDgxNjE4M30.tZ1RQrMp1xePT4l7INM898RiYZgvClqKvvBldcd8fCs';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExNzc1MDUsImV4cCI6MTcwMTE4MTEwNX0.6spfw8shQLOLaEYXyg_sTjxTChQ4QewG8yvK3Fmzqgs';
         const response = await fetch('http://localhost:3000/employees', {
           method: 'GET',
           headers: {

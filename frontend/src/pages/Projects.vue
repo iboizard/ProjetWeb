@@ -14,6 +14,18 @@
       <h3>Date Limite</h3>
       <p>{{ selectedProject.deadline }}</p>
 
+      <h3>Budget</h3>
+      <p>{{ selectedProject.budget }} €</p>
+
+      <h3>Objectifs</h3>
+      <p>{{ selectedProject.objectives }}</p>
+
+      <h3>Membres du projet</h3>
+      <ul>
+        <p v-for="member in members" :key="member.user_id">{{ member.name }}</p>
+      </ul>
+
+
     </div>
 
     <div class="registration-form">
@@ -53,12 +65,38 @@ export default {
     };
   },
   methods: {
-    selectProject() {
-      this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
-    },
+    async selectProject() {
+    this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
+    
+    if (this.selectedProject) {
+      await this.getTeams(this.selectedProject.project_id);
+    }
+  },
+  async getTeams(projectId) {
+    try {
+      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExODEzMDIsImV4cCI6MTcwMTE4NDkwMn0.U0vNFq6lpx4t8Yayji1QF254_Mfs046NWuaS1_VLEwA';
+      const response = await fetch(`http://localhost:3000/projects/${projectId}/teams`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const teams = await response.json();
+        this.members = teams; 
+      } else {
+        console.error('Échec de la récupération des équipes :', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête GET pour les équipes :', error.message);
+    }
+  },
+
     async submitProjectForm() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MjA5MzMsImV4cCI6MTcwMDgyNDUzM30.Ntj4OiQxyEAhnRIPnvYfZxDKOG9E44XXhPuDHi7Q79E';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExODEzMDIsImV4cCI6MTcwMTE4NDkwMn0.U0vNFq6lpx4t8Yayji1QF254_Mfs046NWuaS1_VLEwA';
         const response = await fetch('http://localhost:3000/projects', {
           method: 'POST',
           headers: {
@@ -89,7 +127,7 @@ export default {
     },
     async getProjects() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDA4MjA5MzMsImV4cCI6MTcwMDgyNDUzM30.Ntj4OiQxyEAhnRIPnvYfZxDKOG9E44XXhPuDHi7Q79E';
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExODEzMDIsImV4cCI6MTcwMTE4NDkwMn0.U0vNFq6lpx4t8Yayji1QF254_Mfs046NWuaS1_VLEwA';
         const response = await fetch('http://localhost:3000/projects', {
           method: 'GET',
           headers: {
