@@ -28,6 +28,7 @@
 import '../styles/common.css'
 import { ref } from 'vue';
 import { disconnect, socket } from '../socket';
+import { inject } from 'vue';
 
 if(!socket) {
   disconnect(token);
@@ -35,7 +36,9 @@ if(!socket) {
 
 // clear the token from localStorage
 localStorage.removeItem('jwt_token');
-
+// isUserAuthenticated.value = false;
+const userState = inject('userState');
+userState.isAuthenticated = false;
 
 const password = ref('');
 const username = ref('');
