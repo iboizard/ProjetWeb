@@ -38,7 +38,6 @@
 </template>
   
 <script>
-const token = localStorage.getItem('jwt_token');
 export default {
   data() {
     return {
@@ -52,6 +51,7 @@ export default {
   },
   methods: {
     async getTeams() {
+      const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch('http://localhost:3000/teams', {
           method: 'GET',
@@ -78,6 +78,7 @@ export default {
       }
     },
     async addMember(teamId) {
+      const token = localStorage.getItem('jwt_token');
       try {
         await fetch(`http://localhost:3000/teams/${teamId}/employees/${this.selectedEmployeeId}`, {
           method: 'POST',
@@ -110,6 +111,7 @@ export default {
     },
 
     async getEmployees() {
+      const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch('http://localhost:3000/employees', {
           method: 'GET',

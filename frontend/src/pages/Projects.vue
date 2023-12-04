@@ -73,6 +73,7 @@ export default {
       }
     },
   async getTeams(projectId) {
+    const token = localStorage.getItem('jwt_token');
     try {
       const response = await fetch(`http://localhost:3000/projects/${projectId}/teams`, {
         method: 'GET',
@@ -94,6 +95,7 @@ export default {
   },
 
     async submitProjectForm() {
+      const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch('http://localhost:3000/projects', {
           method: 'POST',
@@ -125,6 +127,7 @@ export default {
       this.isProject = !this.isProject;
     },
     async getProjects() {
+      const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch('http://localhost:3000/projects', {
           method: 'GET',

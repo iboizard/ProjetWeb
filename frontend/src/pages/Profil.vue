@@ -1,19 +1,30 @@
 <template>
-    
-  <div class="profile-info">
+  <div v-if="isAuthenticated" class="profile-info">
     <h2>{{ userName }}</h2>
   </div>
-
   <img src="../assets/FootPage.png" class="full-width"/>
 </template>
+
 <script>
-const token = localStorage.getItem('jwt_token');
-const username= JSON.parse(atob(token.split('.')[1])).username;
 export default {
   data() {
     return {
-      userName: username
+      isAuthenticated: false,
+      userName: ''
     };
+  },
+  watch: {
+    isAuthenticated(newStatus) {
+      if (newStatus) {
+        const token = localStorage.getItem('jwt_token');
+        this.userName = JSON.parse(atob(token.split('.')[1])).username;
+      } else {
+        this.userName = '';
+      }
+    }
+  },
+  created() {
+    this.isAuthenticated = !!localStorage.getItem('jwt_token');
   },
 };
 </script>
