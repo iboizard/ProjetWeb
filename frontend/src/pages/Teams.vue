@@ -19,7 +19,6 @@
             </li>
           </ul>
         </div>
-
         <button @click="showAddMemberModal = true" class="add-button">Ajouter un Membre</button>
 
         <div v-if="showAddMemberModal" class="modal">
@@ -34,6 +33,14 @@
         </div>
       </div>
     </div>
+    
+    <div class="tabs">
+          <button class="navButton" @click="toggleFormVisibility">Inscription d'une équipe</button>
+        </div>
+        <form v-if="isTeam" @submit.prevent="submitProjectForm">
+        <input type="text" v-model="teamName" placeholder="Nom de l'équipe" required>
+        <button type="submit">Inscription</button>
+      </form>
   </div>
 </template>
   
@@ -43,8 +50,10 @@ export default {
     return {
       teams: [],
       employees: [],
+      isTeam: false,
       selectedEmployeeId: null,
       showAddMemberModal: false,
+      teamName: "",
       selectedTeamId: "",
       selectedTeam: null,
     };
@@ -128,6 +137,34 @@ export default {
     },
     loadTeam() {
       this.selectedTeam = this.teams.find(team => team.team_id === parseInt(this.selectedTeamId));
+    },
+    async submitProjectForm() {
+      const token = localStorage.getItem('jwt_token');
+      try {
+        const response = await fetch('http://localhost:3000/teams', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.teamName,
+          }),
+        });
+
+        if (response.ok) {
+          console.log('Equipe inscrite avec succès');
+          this.getTeams();
+        } else {
+          console.error('Échec de l\'inscription de l équipe :', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête POST pour l\'inscription de l équipe :', error.message);
+      }
+    }
+    ,
+    toggleFormVisibility() {
+      this.isTeam = !this.isTeam;
     },
   },
   mounted() {

@@ -166,6 +166,16 @@ app.get('/teams/:teamId/employees', async (req, res) => {
   }
 });
 
+// Créer une nouvelle équipe 
+app.post('/teams', async (req, res) => {
+  try {
+    const newTeam = await Team.create(req.body);
+    res.status(201).json(newTeam);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 // ------ USER ------
 
 //TESTED all users
