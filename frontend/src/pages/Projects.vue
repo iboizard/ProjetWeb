@@ -39,7 +39,6 @@
         <input type="text" v-model="objectives" placeholder="Objectifs du Projet" required>
         <input type="date" v-model="deadline" required>
         <input type="number" v-model="budget" placeholder="Budget du Projet" required>
-        <input type="text" v-model="members" placeholder="Membres du Projet (séparés par des virgules)" required>
 
         <button type="submit">Inscription</button>
       </form>
@@ -48,6 +47,7 @@
 </template>
 
 <script>
+const token = localStorage.getItem('jwt_token');
 export default {
   data() {
     return {
@@ -66,15 +66,14 @@ export default {
   },
   methods: {
     async selectProject() {
-    this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
-    
-    if (this.selectedProject) {
-      await this.getTeams(this.selectedProject.project_id);
-    }
-  },
+      this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
+      
+      if (this.selectedProject) {
+        await this.getTeams(this.selectedProject.project_id);
+      }
+    },
   async getTeams(projectId) {
     try {
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExODEzMDIsImV4cCI6MTcwMTE4NDkwMn0.U0vNFq6lpx4t8Yayji1QF254_Mfs046NWuaS1_VLEwA';
       const response = await fetch(`http://localhost:3000/projects/${projectId}/teams`, {
         method: 'GET',
         headers: {
@@ -96,7 +95,6 @@ export default {
 
     async submitProjectForm() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExODEzMDIsImV4cCI6MTcwMTE4NDkwMn0.U0vNFq6lpx4t8Yayji1QF254_Mfs046NWuaS1_VLEwA';
         const response = await fetch('http://localhost:3000/projects', {
           method: 'POST',
           headers: {
@@ -114,6 +112,7 @@ export default {
 
         if (response.ok) {
           console.log('Projet inscrit avec succès');
+          this.getProjects();
         } else {
           console.error('Échec de l\'inscription du projet :', response.statusText);
         }
@@ -127,7 +126,6 @@ export default {
     },
     async getProjects() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExODEzMDIsImV4cCI6MTcwMTE4NDkwMn0.U0vNFq6lpx4t8Yayji1QF254_Mfs046NWuaS1_VLEwA';
         const response = await fetch('http://localhost:3000/projects', {
           method: 'GET',
           headers: {

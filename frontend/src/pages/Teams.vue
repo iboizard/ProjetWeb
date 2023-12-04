@@ -32,16 +32,13 @@
           <button @click="addMember(selectedTeamId)" class="add-button">Ajouter</button>
           <button @click="showAddMemberModal = false">Annuler</button>
         </div>
-
-        <button @click="reportUnderstaffed(selectedTeamId)" class="understaff-button">Signaler un Manque
-          d'Effectif</button>
       </div>
     </div>
   </div>
 </template>
   
 <script>
-
+const token = localStorage.getItem('jwt_token');
 export default {
   data() {
     return {
@@ -56,7 +53,6 @@ export default {
   methods: {
     async getTeams() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExNzc1MDUsImV4cCI6MTcwMTE4MTEwNX0.6spfw8shQLOLaEYXyg_sTjxTChQ4QewG8yvK3Fmzqgs';
         const response = await fetch('http://localhost:3000/teams', {
           method: 'GET',
           headers: {
@@ -83,7 +79,6 @@ export default {
     },
     async addMember(teamId) {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExNzc1MDUsImV4cCI6MTcwMTE4MTEwNX0.6spfw8shQLOLaEYXyg_sTjxTChQ4QewG8yvK3Fmzqgs';
         await fetch(`http://localhost:3000/teams/${teamId}/employees/${this.selectedEmployeeId}`, {
           method: 'POST',
           headers: {
@@ -116,7 +111,6 @@ export default {
 
     async getEmployees() {
       try {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDExNzc1MDUsImV4cCI6MTcwMTE4MTEwNX0.6spfw8shQLOLaEYXyg_sTjxTChQ4QewG8yvK3Fmzqgs';
         const response = await fetch('http://localhost:3000/employees', {
           method: 'GET',
           headers: {
@@ -132,9 +126,6 @@ export default {
     },
     loadTeam() {
       this.selectedTeam = this.teams.find(team => team.team_id === parseInt(this.selectedTeamId));
-    },
-    reportUnderstaffed(teamId) {
-      console.log(`Signaler un manque d'effectif pour l'équipe avec l'ID ${teamId}`);
     },
   },
   mounted() {

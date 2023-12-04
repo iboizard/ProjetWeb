@@ -13,7 +13,6 @@ if (token != null) {
     const payloadBase64 = token.split('.')[1];
     const decodedJson = atob(payloadBase64);
     const decoded = JSON.parse(decodedJson);
-    username = decoded.username;
 }
 
 

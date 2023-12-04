@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="chat-toggle" @click="toggleChat">Réduire le Chat</div>
+    <div class="chat-toggle" @click="toggleChat">{{ isChatVisible ? 'Réduire le Chat' : 'Ouvrir le Chat' }}</div>
     <div v-show="isChatVisible" class="chat-popup">
       <ul id="messages">
         <li v-for="msg in messages" :key="msg">{{ msg }}</li>
@@ -61,6 +61,7 @@ const toggleChat = () => {
   padding: 5px 10px;
   cursor: pointer;
   z-index: 1001;
+  width: 10%;
 }
 
 #messages {
@@ -75,78 +76,3 @@ const toggleChat = () => {
   text-align: left;
 }
 </style>
-
-<!--
-
-<template>
-  <div>
-    <ul id="messages">
-      <li v-for="msg in messages" :key="msg">{{ msg }}</li>
-    </ul>
-    <input v-model="message" @keyup.enter="sendMessage">
-    <button @click="sendMessage">Send</button>
-    <button @click="toggleChat">Toggle Chat</button>
-  </div>
-</template>
-  
-<script setup>
-
-
-import { ref, inject } from 'vue';
-import { socket, connect } from '../socket';  
-const message = ref('');
-const messages = ref([]);
-
-const token = localStorage.getItem('jwt_token');
-const userState = inject('userState');
-
-if(!socket) {
-  connect(token);
-}
-
-socket.on('chat message', (msg) => {
-  messages.value.push(msg);
-});
-const sendMessage = () => {
-  socket.emit('chat message', userState.username + ' : ' + message.value);
-  message.value = '';
-};
-
-const toggleChat = () => {
-  emit('toggleChat');
-};
-
-</script>
-  
-<style>
-#chat-component {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 300px;
-  height: 400px;
-  border: 1px solid #ddd;
-  background-color: white;
-  z-index: 1000;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-.collapsed {
-  height: 0;
-  overflow: hidden;
-}
-
-#messages {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-#messages li {
-  padding-left: 4%;
-  padding-top: 2%;
-  text-align: left;
-}
-
-</style>
-!-->

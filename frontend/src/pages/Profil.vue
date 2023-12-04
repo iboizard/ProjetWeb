@@ -7,11 +7,12 @@
   <img src="../assets/FootPage.png" class="full-width"/>
 </template>
 <script>
+const token = localStorage.getItem('jwt_token');
+const username= JSON.parse(atob(token.split('.')[1])).username;
 export default {
   data() {
     return {
-      userName: "Huguette DUPONT",
-      teams: [],
+      userName: username
     };
   },
 };
