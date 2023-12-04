@@ -27,6 +27,15 @@
 <script setup>
 import '../styles/common.css'
 import { ref } from 'vue';
+import { disconnect, socket } from '../socket';
+
+if(!socket) {
+  disconnect(token);
+}
+
+// clear the token from localStorage
+localStorage.removeItem('jwt_token');
+
 
 const password = ref('');
 const username = ref('');

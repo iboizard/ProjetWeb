@@ -7,17 +7,21 @@ import { reactive, provide } from 'vue';
 
 // get token from localStorage
 const token = localStorage.getItem('jwt_token');
+const username = "unauthenticated";
 // decode the token to get the username
-const payloadBase64 = token.split('.')[1];
-const decodedJson = atob(payloadBase64);
-const decoded = JSON.parse(decodedJson);
-const username = decoded.username;
+if (token != null) {
+    const payloadBase64 = token.split('.')[1];
+    const decodedJson = atob(payloadBase64);
+    const decoded = JSON.parse(decodedJson);
+    username = decoded.username;
+}
+
 
 
 // APP STATE
 const userState = reactive({
     isAuthenticated: !!localStorage.getItem('jwt_token'),
-    username : username
+    username: username
 });
 
 const app = createApp(App);
