@@ -25,6 +25,18 @@
         <p v-for="member in members" :key="member.user_id">{{ member.name }}</p>
       </ul>
 
+      <h3>Documents</h3>
+      <ul>
+        <p v-for="document in documents" :key="document.title">{{ document.link }}</p>
+      </ul>
+
+      <button class="navButton" @click="toggleFormVisibilityLink">Ajouter des documents</button>
+      <form v-if="isLink" @submit.prevent="submitLinkForm">
+        <input type="text" v-model="documentName" placeholder="Nom du Document" required>
+        <textarea v-model="link" placeholder="Link du Document" required></textarea>
+
+        <button type="submit">Ajout</button>
+      </form>
 
     </div>
 
@@ -54,6 +66,7 @@ export default {
       selectedProjectId: "",
       selectedProject: null,
       isProject: false,
+      isLink: false,
       availableProjects: [],
       selectedExistingProject: "",
       projectName: "",
@@ -62,6 +75,9 @@ export default {
       deadline: "",
       budget: "",
       members: "",
+      documents:"",
+      documentName: "",
+      link: "",
     };
   },
   methods: {
@@ -70,6 +86,8 @@ export default {
       
       if (this.selectedProject) {
         await this.getTeams(this.selectedProject.project_id);
+        await this.getDocuments(this.selectedProject.project_id);
+
       }
     },
   async getTeams(projectId) {
@@ -91,6 +109,27 @@ export default {
       }
     } catch (error) {
       console.error('Erreur lors de la requête GET pour les équipes :', error.message);
+    }
+  },
+  async getDocuments(projectId) {
+    const token = localStorage.getItem('jwt_token');
+    try {
+      const response = await fetch(`http://localhost:3000/projects/${projectId}/documents`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const docs = await response.json();
+        this.documents = docs; 
+      } else {
+        console.error('Échec de la récupération des documents :', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête GET pour les documents :', error.message);
     }
   },
 
@@ -121,10 +160,39 @@ export default {
       } catch (error) {
         console.error('Erreur lors de la requête POST pour l\'inscription du projet :', error.message);
       }
+    },
+    async submitLinkForm() {
+      const token = localStorage.getItem('jwt_token');
+      try {
+        const response = await fetch(`http://localhost:3000/projects/${projectId}/documents`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: this.documentName,
+            link: this.link,
+          }),
+        });
+
+        if (response.ok) {
+          console.log('Projet inscrit avec succès');
+          this.getProjects();
+        } else {
+          console.error('Échec de l\'inscription du projet :', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête POST pour l\'inscription du projet :', error.message);
+      }
     }
     ,
     toggleFormVisibility() {
       this.isProject = !this.isProject;
+    },
+    
+    toggleFormVisibilityLink() {
+      this.isLink = !this.isLink;
     },
     async getProjects() {
       const token = localStorage.getItem('jwt_token');

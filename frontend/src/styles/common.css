@@ -162,6 +162,9 @@ h2 {
 
 .nav-title{    
     margin-left: 2%;
+    font-family: 'NouvellePolice', sans-serif; 
+    font-size: 15px; 
+    font-weight: bold; 
 }
 
 .top-nav {
