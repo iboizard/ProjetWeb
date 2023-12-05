@@ -122,6 +122,22 @@ app.get('/employees', async (req, res) => {
   }
 });
 
+// ADD employee
+
+app.post('/employees', async (req, res) => {
+  try {
+    // Création de l'employé dans la base de données
+    const employee = await Employee.create(req.body);
+
+    // Réponse avec l'employé créé
+    res.status(201).json(employee);
+  } catch (error) {
+    // Gestion des erreurs
+    console.error('Erreur lors de la création de l\'employé :', error);
+    res.status(500).send('Erreur interne du serveur');
+  }
+});
+
 //TESTED ajouter un employé à une team
 app.post('/teams/:teamId/employees/:employeeId', async (req, res) => {
   try {

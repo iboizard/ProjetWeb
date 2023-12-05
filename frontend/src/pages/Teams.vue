@@ -218,6 +218,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-right: 2%;
 }
 
 button.add-button {
