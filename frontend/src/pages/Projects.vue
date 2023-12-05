@@ -27,11 +27,13 @@
 
       <h3>Documents</h3>
       <ul>
-        <p v-for="document in documents" :key="document.title">{{ document.link }}</p>
+        <p v-for="document in documents" :key="document.title">
+          <a :href="document.title" target="_blank">{{ document.title }}</a>
+        </p>
       </ul>
 
       <button class="navButton" @click="toggleFormVisibilityLink">Ajouter des documents</button>
-      <form v-if="isLink" @submit.prevent="submitLinkForm">
+      <form v-if="isLink" @submit.prevent="submitLinkForm(selectedProjectId)">
         <input type="text" v-model="documentName" placeholder="Nom du Document" required>
         <textarea v-model="link" placeholder="Link du Document" required></textarea>
 
@@ -161,7 +163,8 @@ export default {
         console.error('Erreur lors de la requête POST pour l\'inscription du projet :', error.message);
       }
     },
-    async submitLinkForm() {
+    async submitLinkForm(projectId) {
+      console.log(projectId);
       const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch(`http://localhost:3000/projects/${projectId}/documents`, {
@@ -179,6 +182,8 @@ export default {
         if (response.ok) {
           console.log('Projet inscrit avec succès');
           this.getProjects();
+          await this.getTeams(projectId);
+          await this.getDocuments(projectId);
         } else {
           console.error('Échec de l\'inscription du projet :', response.statusText);
         }
