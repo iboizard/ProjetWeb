@@ -28,11 +28,19 @@
       <h3>Documents</h3>
       <ul>
         <p v-for="document in documents" :key="document.title">
-          <a :href="document.title" target="_blank">{{ document.title }}</a>
+          <a :href="document.link" target="_blank">{{ document.title }}</a>
         </p>
       </ul>
 
-      <button class="navButton" @click="toggleFormVisibilityLink">Ajouter des documents</button>
+      <h3>Achats</h3>
+      <ul>
+        <p v-for="purchase in purchases" :key="purchase.purchase_id">
+          {{ purchase.title }} : {{ purchase.price }} € <br/>
+          <em>{{ purchase.description }}</em>
+        </p>
+      </ul>
+
+      <button class="aquaButton" @click="toggleFormVisibilityLink">Ajouter des documents</button>
       <form v-if="isLink" @submit.prevent="submitLinkForm(selectedProjectId)">
         <input type="text" v-model="documentName" placeholder="Nom du Document" required>
         <textarea v-model="link" placeholder="Link du Document" required></textarea>
@@ -40,6 +48,14 @@
         <button type="submit">Ajout</button>
       </form>
 
+      <button class="aquaButton" @click="toggleFormVisibilityPurchase">Ajouter un achat</button>
+      <form v-if="isPurchase" @submit.prevent="submitPurchaseForm(selectedProjectId)">
+        <input type="text" v-model="purchaseName" placeholder="Nom de l'achat" required>
+        <input type="number" v-model="price" placeholder="Prix" required>
+        <textarea v-model="purchaseDescription" placeholder="Description de l'achat" required></textarea>
+
+        <button type="submit">Ajout</button>
+      </form>
     </div>
 
     <div class="registration-form">
@@ -69,6 +85,7 @@ export default {
       selectedProject: null,
       isProject: false,
       isLink: false,
+      isPurchase: false,
       availableProjects: [],
       selectedExistingProject: "",
       projectName: "",
@@ -78,18 +95,42 @@ export default {
       budget: "",
       members: "",
       documents:"",
+      purchases:"",
       documentName: "",
       link: "",
+      purchaseName: "",
+      purchaseDescription: "",
+      price :"",
     };
   },
   methods: {
+
     async selectProject() {
       this.selectedProject = this.availableProjects.find((project) => project.project_id === parseInt(this.selectedProjectId));
       
       if (this.selectedProject) {
         await this.getTeams(this.selectedProject.project_id);
         await this.getDocuments(this.selectedProject.project_id);
+        await this.getPurchases(this.selectedProject.project_id);
 
+      }
+    },
+    
+    //GET PROJECT TEAM DOCUMENTS PURCHASES
+    async getProjects() {
+      const token = localStorage.getItem('jwt_token');
+      try {
+        const response = await fetch('http://localhost:3000/projects', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        this.availableProjects = data;
+      } catch (error) {
+        console.error('Erreur lors de la récupération des projets :', error.message);
       }
     },
   async getTeams(projectId) {
@@ -134,7 +175,28 @@ export default {
       console.error('Erreur lors de la requête GET pour les documents :', error.message);
     }
   },
+  async getPurchases(projectId) {
+    const token = localStorage.getItem('jwt_token');
+    try {
+      const response = await fetch(`http://localhost:3000/projects/${projectId}/purchases`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
+      if (response.ok) {
+        const achats = await response.json();
+        this.purchases = achats; 
+      } else {
+        console.error('Échec de la récupération des achats :', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la requête GET pour les achats :', error.message);
+    }
+  },
+    // SUBMIT FORM OF PROJECT DOCUMENT PURCHASE
     async submitProjectForm() {
       const token = localStorage.getItem('jwt_token');
       try {
@@ -164,7 +226,6 @@ export default {
       }
     },
     async submitLinkForm(projectId) {
-      console.log(projectId);
       const token = localStorage.getItem('jwt_token');
       try {
         const response = await fetch(`http://localhost:3000/projects/${projectId}/documents`, {
@@ -192,6 +253,35 @@ export default {
       }
     }
     ,
+    async submitPurchaseForm(projectId) {
+      const token = localStorage.getItem('jwt_token');
+      try {
+        const response = await fetch(`http://localhost:3000/projects/${projectId}/purchases`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: this.purchaseName,
+            price: this.price,
+            description: this.purchaseDescription,
+          }),
+        });
+
+        if (response.ok) {
+          console.log('Achat inscrit avec succès');
+          this.getProjects();
+          await this.getPurchases(projectId);
+        } else {
+          console.error('Échec de l\'inscription de l achat :', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erreur lors de la requête POST pour l\'inscription du l achat :', error.message);
+      }
+    }
+    ,
+    //PRINT FORM OR NOT 
     toggleFormVisibility() {
       this.isProject = !this.isProject;
     },
@@ -199,21 +289,9 @@ export default {
     toggleFormVisibilityLink() {
       this.isLink = !this.isLink;
     },
-    async getProjects() {
-      const token = localStorage.getItem('jwt_token');
-      try {
-        const response = await fetch('http://localhost:3000/projects', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await response.json();
-        this.availableProjects = data;
-      } catch (error) {
-        console.error('Erreur lors de la récupération des projets :', error.message);
-      }
+    
+    toggleFormVisibilityPurchase() {
+      this.isPurchase = !this.isPurchase;
     },
   },
   mounted() {
@@ -333,6 +411,13 @@ button {
 
 .navButton {
   width: 40%;
+}
+
+.aquaButton {
+  width: 40%;
+  background-color: rgb(32, 101, 101);
+  margin-right: 2%;
+  margin-top: 2%;
 }
 
 
