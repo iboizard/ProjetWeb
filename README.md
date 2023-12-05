@@ -42,3 +42,52 @@ npm run serve
 ```
 
 The application will be accessible at http://localhost:8080 by default.
+
+## Project Summary
+
+### Backend
+
+- **Language:** JavaScript (Node.js)
+- **Framework:** Express.js
+- **Database:** Sequelize (MySQL, PostgreSQL, SQLite)
+- **Authentication:** JWT (jsonwebtoken), Bcrypt for password hashing
+- **WebSockets:** Socket.io for real-time communication
+- **Middleware:** Cors for handling cross-origin HTTP requests
+- **Other notable dependencies:** Dotenv for managing environment variables, Body-parser for parsing request bodies, Node-fetch for HTTP requests from the server
+
+**Scripts:**
+
+- `npm run dev`: Uses Nodemon to automatically restart the server during development
+- `npm start`: Launches the server in production mode
+
+**Database:**
+
+- Support for MySQL, PostgreSQL, and SQLite via Sequelize
+
+### Frontend
+
+- **Framework:** Vue.js (Vue 3)
+- **Routing:** Vue Router
+- **State management:** Vuex
+- **Communication with the backend:** Axios for HTTP requests
+- **WebSockets:** Socket.io-client for real-time communication with the server
+- **Other notable dependencies:** Core-js for compatibility, Babel for transpilation
+
+**Scripts:**
+
+- `npm run serve`: Launches the development server
+- `npm run build`: Generates a production version of the frontend
+- `npm run lint`: Linting for Vue code
+
+**Browserslist:**
+
+- Configuration for browser compatibility
+
+**Notes:**
+
+- The backend uses Sequelize as an ORM to facilitate database operations.
+- WebSockets (Socket.io) are used for bidirectional real-time communication between the frontend and backend.
+- State management in the frontend is handled by Vuex.
+- Project configuration includes scripts for development, building, and linting.
+- The frontend communicates with the backend through HTTP requests (Axios) and uses Socket.io for real-time updates.
+- The project is structured in a modular way, following best practices for each framework (Express.js for the backend, Vue.js for the frontend).
